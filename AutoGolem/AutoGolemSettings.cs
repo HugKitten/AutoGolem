@@ -1,6 +1,7 @@
 ﻿using ExileCore.Shared.Attributes;
 using ExileCore.Shared.Interfaces;
 using ExileCore.Shared.Nodes;
+using System.Windows.Forms;
 
 namespace AutoGolem
 {
@@ -27,13 +28,16 @@ namespace AutoGolem
         [Menu("Bestial Ursal", 7)]
         public GolemSettings BestialUrsa { get; set; } = new GolemSettings();
 
-        [Menu("Only summon when enemies are this far away", 8)]
+        [Menu("ToggleSkillSetKey", 8)]
+        public HotkeyNode ToggleSkillSetNode { get; set; } = new HotkeyNode(Keys.ControlKey);
+
+        [Menu("Only summon when enemies are this far away", 9)]
         public RangeNode<int> MinDistance { get; set; } = new RangeNode<int>(1500, 0, 10000);
 
-        [Menu("Only summon when life is at least this percentage", 9)]
+        [Menu("Only summon when life is at least this percentage", 10)]
         public RangeNode<int> MinLife { get; set; } = new RangeNode<int>(0, 0, 100);
 
-        [Menu("Only summon when shield is at least this percentage", 10)]
+        [Menu("Only summon when shield is at least this percentage", 11)]
         public RangeNode<int> MinShield { get; set; } = new RangeNode<int>(0, 0, 100);
     }
 

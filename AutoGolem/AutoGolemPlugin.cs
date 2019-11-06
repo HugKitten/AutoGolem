@@ -15,6 +15,18 @@ namespace AutoGolem
 {
     public class AutoGolemPlugin : BaseSettingsPlugin<AutoGolemSettings>
     {
+        private void OnToggleSSkillSetNodeChange()
+        {
+            Input.RegisterKey(this.Settings.ToggleSkillSetNode);
+        }
+
+        public override bool Initialise()
+        {
+            Input.RegisterKey(this.Settings.ToggleSkillSetNode);
+            this.Settings.ToggleSkillSetNode.OnValueChanged += OnToggleSSkillSetNodeChange;
+            return true;
+        }
+
         public override Job Tick()
         {
             var player = this.GameController.Player;
@@ -22,7 +34,7 @@ namespace AutoGolem
             var deployedObjects = player.GetComponent<Actor>().DeployedObjects;
             var entities = this.GameController.Entities;
             var aliveEnties = deployedObjects.Select(o => o.Entity).Where(e => e != null && e.IsAlive).ToList();
-
+            
             // Return if forground
             if (!GameController.Window.IsForeground())
             {
@@ -106,8 +118,16 @@ namespace AutoGolem
 
             foreach(var press in pressMe)
             {
-                Input.KeyDown(press);
-                Input.KeyUp(press);
+                if (press.HasFlag(this.Settings.ToggleSkillSetNode))
+                {
+                    Input.KeyDown(press);
+                    Input.KeyUp(press);
+                }
+                else if (!Input.IsKeyDown(this.Settings.ToggleSkillSetNode))
+                {
+                    Input.KeyDown(press);
+                    Input.KeyUp(press);
+                }
             }
 
             return null;
